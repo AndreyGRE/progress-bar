@@ -1,43 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" type="text/css" href="css.css" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div>   
-        <div>
-            <svg
-                class="progress-ring"
-                width="120"
-                height="120">
+    <head>
+        <link rel="stylesheet" type="text/css" href="css.css" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="overlap">
+            <div class="circle">
+                <svg class="progress-ring" width="120" height="120">
                 <circle
-                    class="progress-ring__circle"
-                    stroke="white"
+                    stroke="#dfd9d9"
                     stroke-width="10"
                     fill="transparent"
                     r="52"
                     cx="60"
-                    cy="60"/>
-            </svg>
+                    cy="60"
+                />
+                <circle
+                    class="progress-ring__circle"
+                    stroke-width="10"
+                    fill="transparent"
+                    r="52"
+                    cx="60"
+                    cy="60"
+                />
+                </svg>
+            </div>
+            <div class="props">
+                <div class="box">
+                    <div class="prop">
+                        <input type="text" class="newIn" min="0" max="100" value="30" />
+                        <label for="valueInput">Value</label>
+                    </div>
+                    <div class="prop">
+                        <label class="toggler-wrapper style-1">
+                            <input type="checkbox" id="animateToggle" />
+                            <div class="toggler-slider">
+                                <div class="toggler-knob"></div>
+                            </div>
+                        </label>
+                        <label for="animateToggle">Animate</label>
+                    </div>
+                    <div class="prop">
+                        <label class="toggler-wrapper style-1">
+                            <input type="checkbox" id="hideToggle" />
+                            <div class="toggler-slider">
+                                <div class="toggler-knob"></div>
+                            </div>
+                        </label>
+                        <label for="hideToggle">Hide</label>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="valueInput">Value:</label>
-            <input type="number" class="newIn" min="0" max="100" value="30" />
-          </div>
-          <div>
-            <label for="animateToggle">Animate:</label>
-            <input type="checkbox" id="animateToggle"  />
-          </div>
-          <div>
-            <label for="hideToggle">Hide:</label>
-            <input type="checkbox" id="hideToggle" />
-          </div>
-        </div>  
-    </div>
-</body>
-  
-  <script src="js.js"></script>
+    </body>
+    <script src="js.js"></script>
 </html>
