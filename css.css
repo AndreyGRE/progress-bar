@@ -15,6 +15,10 @@ body {
   background-color: white;
   gap: 60px;
 }
+.progress{
+  position: absolute;
+  margin: 10px;
+}
 
 @media screen and (orientation: portrait) {
   .overlap {
