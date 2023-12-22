@@ -1,63 +1,73 @@
 class Progress {
-    constructor(circle) {
-        this.circle = circle;
-        this.value = 30;
-        this.animated = false;
-        this.hidden = false;
-        this.render();
+    constructor(
+        documentElements = {},
+        dafaultValue = { value: 30, animated: false, hidden: false }
+    ) {
+        if (!documentElements) {
+        throw Error("NO_ELEMENTS");
+        }
+
+        this.svgRingProgress = documentElements.svgRingProgress;
+        this.circleProgress = this.svgRingProgress.querySelector(".progress-ring__circle");
+        this.valueProgress = dafaultValue.value;
+        this.animated = dafaultValue.animated;
+        this.hidden = dafaultValue.hidden;
+
+        documentElements.hideToggle.addEventListener("change", function () {
+        progress.hidden = this.checked;
+        });
+
+        documentElements.value.addEventListener("change", function () {
+        progress.valueProgress = this.value;
+        });
+
+        documentElements.animateToggle.addEventListener("change", function () {
+        progress.animated = this.checked;
+        });
     }
-    render() {
-      if (this.hidden) {
-        this.circle.style.display = 'none';
-      }else{
-        this.circle.style.display = 'block';
-        const radius = this.circle.r.baseVal.value;
+
+    set valueProgress(newValue) {
+        if (newValue < 0 || newValue > 100) {
+        console.error("Value must be between 0 and 100");
+        return;
+        }
+
+        const radius = this.circleProgress.r.baseVal.value;
         const circumference = radius * 2 * Math.PI;
-        this.circle.style.strokeDasharray = `${circumference} ${circumference}`;
-        this.circle.style.strokeDashoffset = `${circumference}`;
-        const offset = circumference - this.value / 100 * circumference;
-        this.circle.style.strokeDashoffset = offset;
-            if(this.animated){
-                this.circle.style.transition = '0.35s stroke-dashoffset'
-            }else{
-                this.circle.style.transition = 'none'
-            }
-        }
-    }   
-    setValue(newValue) {
-        if (newValue >= 0 && newValue <= 100) {
-            this.value = newValue;
-            this.render();
+        const offset = circumference - (newValue / 100) * circumference;
+
+        this.circleProgress.style.strokeDasharray = `${circumference}`;
+        this.circleProgress.style.strokeDashoffset = offset;
+    }
+
+    set animated(isAnimated) {
+        if (isAnimated) {
+        this.circleProgress.style.animation = "3s linear infinite rotate";
         } else {
-            console.error('Value must be between 0 and 100');
+        this.circleProgress.style.animation = "none";
         }
     }
-    setAnimated(isAnimated) {
-        this.animated = isAnimated;
-        this.render();
-    }
-    setHidden(isHidden) {
-        this.hidden = isHidden;
-        this.render();
+
+    set hidden(isHidden) {
+        if (isHidden) {
+        this.svgRingProgress.style.display = "none";
+        } else {
+        this.svgRingProgress.style.display = "block";
+        }
     }
 }
 
-const circle = document.querySelector('circle');
-const progress = new Progress(circle);
+const hideToggle = document.getElementById("hideToggle");
+const value = document.querySelector(".newIn");
+const animateToggle = document.getElementById("animateToggle");
+const svg = document.querySelector(".progress-ring");
 
-const hideToggle = document.getElementById('hideToggle');
-hideToggle.addEventListener('change', function() {
-    progress.setHidden(this.checked);
-});
-
-const value = document.querySelector(".newIn")
-value.addEventListener('change', function() {
-    progress.setValue(this.value);
-});
-
-const animated = document.getElementById('animateToggle');
-animateToggle.addEventListener('change', function() {
-    progress.setAnimated(this.checked);
-});
-
-
+const progress = new Progress(
+  {
+    svgRingProgress: svg,
+    hideToggle: hideToggle,
+    animateToggle: animateToggle,
+    value: value,
+  },
+  { value: 30, animated: false, hidden: false }
+);
